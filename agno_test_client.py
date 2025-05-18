@@ -1,5 +1,5 @@
 import asyncio
-import os
+import sys
 from textwrap import dedent
 
 from agno.agent import Agent
@@ -39,17 +39,24 @@ async def run_agent(message: str) -> None:
         )
 
         # Run the agent and print the response to the user, streaming output as it arrives.
-        await agent.aprint_response(message, stream=True)
+        try:
+            await agent.aprint_response(message, stream=True)
+        except Exception as e:
+            print(f"Error: {e}")
 
 
 # --- Interactive CLI Loop ---
 if __name__ == "__main__":
-    # Simple REPL loop for user queries
-    while True:
-        query = input("> ")
-        if query == "q" or query == "quit" or query == "exit":
-            os._exit(0)  # Exit the process immediately
-        # Run the agent for the user's query (asyncio.run ensures event loop is managed)
-        asyncio.run(
-            run_agent(query)
-        )
+    try:
+        # Simple REPL loop for user queries
+        while True:
+            query = input("> ")
+            if query in {"q", "quit", "exit"}:
+                sys.exit(0)  # Clean exit
+            # Run the agent for the user's query (asyncio.run ensures event loop is managed)
+            asyncio.run(
+                run_agent(query)
+            )
+    except KeyboardInterrupt:
+        print("\nExiting.")
+        sys.exit(0)
