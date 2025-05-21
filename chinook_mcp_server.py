@@ -133,7 +133,7 @@ def _get_table_schema(conn: sqlite3.Connection, table_name: str) -> str:
     return schema_str
 
 # --- Resources ---
-@mcp_server.resource("schema://chinook/tables")
+@mcp_server.resource("resource://chinook/tables")
 async def list_tables_schema() -> str:
     """
     Provides the schema for all tables in the Chinook database.
@@ -146,7 +146,7 @@ async def list_tables_schema() -> str:
             full_schema += _get_table_schema(conn, table_name) + "\n---\n\n"
         return full_schema.strip()
 
-@mcp_server.resource("schema://chinook/table/{table_name}")
+@mcp_server.resource("resource://chinook/table/{table_name}")
 async def get_specific_table_schema(table_name: str) -> str:
     """
     Provides the schema for a specific table in the Chinook database.
@@ -201,7 +201,7 @@ async def list_all_tables() -> list[mcp_prompts.Message]:
             "How can I see all the tables and their schemas in the Chinook database?"
         ),
         mcp_prompts.AssistantMessage(
-            "You can inspect the `schema://chinook/tables` resource. "
+            "You can inspect the `resource://chinook/tables` resource. "
             "It contains the schema for all tables. "
             "Alternatively, you can ask me to query specific information using SQL."
         )
@@ -218,7 +218,7 @@ async def show_table_schema(table_name: str) -> str:
     """
     return (
         f"Please show me the schema for the '{table_name}' table. "
-        f"You can use the `schema://chinook/table/{table_name}` resource."
+        f"You can use the `resource://chinook/table/{table_name}` resource."
     )
 
 @mcp_server.prompt()
