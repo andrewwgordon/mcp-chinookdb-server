@@ -27,12 +27,13 @@ This project provides an MCP (Model Context Protocol) server for the [Chinook SQ
 
 - **Clone the repository:**
   ```bash
+  curl -LsSf https://astral.sh/uv/install.sh | sh
   git clone <your-repo-url>
   cd mcp-chinookdb-server
   ```
 - **Install Python dependencies using uv:**
   ```bash
-  uv pip install -r requirements.txt
+  uv sync
   ```
   Ensure you have Python 3.8+ installed and [uv](https://github.com/astral-sh/uv) available in your environment.
 
